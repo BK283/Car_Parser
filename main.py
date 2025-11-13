@@ -110,6 +110,7 @@ def start1(price1,price2,town):
         result = parse_cars(html_content)
 
         with open("list_cars.txt", "w", encoding="utf-8") as file:
+            file.write(driver.title + "\n")
             file.writelines(result)
 
         pages = driver.find_element("xpath", "//div[@class='pager']")
@@ -148,29 +149,6 @@ def start1(price1,price2,town):
         driver.quit()
 
 
-cities = [
-    "Актау",
-    "Актобе",
-    "Алматы",  
-    "Астана",
-    "Атырау",
-    "Жанаозен",
-    "Жезказган",
-    "Караганда",
-    "Кокшетау",
-    "Костанай",
-    "Кызылорда",
-    "Павлодар",
-    "Петропавловск",
-    "Сарыагаш",
-    "Семей",
-    "Талдыкорган",
-    "Тараз",
-    "Туркестан",
-    "Уральск",
-    "Усть-Каменогорск",
-    "Шымкент"
-]
 
 
 cities = [
@@ -183,25 +161,33 @@ for i, city in enumerate(cities, 1):
     print(f"{i} - {city}")
 
 
-try:
-    town = int(input("Выберите город по номеру для поиска новой машины: "))
-    if not 1 <= town <= len(cities):
-        raise ValueError("Неверный номер города")
-except ValueError:
-    print("Пожалуйста выберите корректный номер города от 1 до", len(cities))
-    exit()  
+while True:
+    try:
+        town = int(input("Выберите город по номеру для поиска новой машины: "))
+        if not 1 <= town <= len(cities):
+            raise ValueError("Неверный номер города")
+            continue
+    except ValueError:
+        print("Пожалуйста выберите корректный номер города от 1 до", len(cities))
+        continue
 
-try:
-    p1 = int(input("Введите цену от (минимум 5 000 000): "))
-    p2 = int(input("Введите цену до (максимум 167 000 000): "))
-    if p1 > p2:
-        print("Минимальная цена не может быть больше максимальной")
-        exit()
-except ValueError:
-    print("Пожалуйста введите корректные числовые значения")
-    exit()
+    try:
+        p1 = int(input("Введите цену от (минимум 5 000 000): "))
+        p2 = int(input("Введите цену до (максимум 167 000 000): "))
+        if p1 > p2:
+            print("Минимальная цена не может быть больше максимальной")
+            continue
+    except ValueError:
+        print("Пожалуйста введите корректные числовые значения")
+        continue
 
-start1(p1, p2, cities[town-1])
+    start1(p1, p2, cities[town-1])
+    print("Данные успешно загружены!")
+    break
+
+
+
+
 
 
 
